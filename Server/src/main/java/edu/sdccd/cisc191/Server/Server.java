@@ -1,7 +1,11 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191.Server;
+
+import edu.sdccd.cisc191.common.StudentRequest;
+import edu.sdccd.cisc191.common.GradeBookResponse;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This program is a server that takes connection requests on
@@ -27,9 +31,9 @@ public class Server {
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
+            StudentRequest request = StudentRequest.fromJSON(inputLine);
+            GradeBookResponse response = new GradeBookResponse(new ArrayList<>());//edit
+            out.println(GradeBookResponse.toJSON(response));
         }
     }
 
@@ -41,12 +45,9 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server();
-        try {
-            server.start(4444);
-            server.stop();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        GUI gui = new GUI();
+        gui.start();
+        CLI console = new CLI();
+        console.start();
     }
 } //end class Server

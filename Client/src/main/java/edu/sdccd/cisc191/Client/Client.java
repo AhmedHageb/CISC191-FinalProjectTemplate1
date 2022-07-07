@@ -1,7 +1,13 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191.Client;
 
-import java.net.*;
-import java.io.*;
+import edu.sdccd.cisc191.common.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * This program opens a connection to a computer specified
@@ -20,6 +26,12 @@ public class Client {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
+    private Thread thread;
+    private Scanner reader = new Scanner(System.in);
+    //private static GradesList gradesList;
+    private static final String[] options = { "1 - List of your classes",
+            "2 - Add a Class", "3 - Remove a class", "4 - Calculate GPA", "5 - Quit"};
+
 
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
@@ -27,9 +39,10 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
-    public CustomerResponse sendRequest() throws Exception {
-        out.println(CustomerRequest.toJSON(new CustomerRequest(1)));
-        return CustomerResponse.fromJSON(in.readLine());
+    public GradeBookResponse sendRequest(String className, double grade) throws Exception {
+
+        //out.println(StudentRequest.toJSON(new StudentRequest(className, grade)));
+        return GradeBookResponse.fromJSON(in.readLine());
     }
 
     public void stopConnection() throws IOException {
@@ -37,11 +50,15 @@ public class Client {
         out.close();
         clientSocket.close();
     }
+
+
+
     public static void main(String[] args) {
         Client client = new Client();
+
         try {
             client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendRequest().toString());
+           // System.out.println(client.sendRequest().toString());
             client.stopConnection();
         } catch(Exception e) {
             e.printStackTrace();
