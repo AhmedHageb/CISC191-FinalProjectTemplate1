@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.Server;
 
-
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CLI implements Runnable{
@@ -8,7 +8,7 @@ public class CLI implements Runnable{
     private Scanner reader = new Scanner(System.in);
     private static GradesList gradesList;
     private static final String[] options = { "1 - List of your classes",
-            "2 - Add a Class", "3 - Remove a class", "4 - Calculate GPA", "5 - Quit"};
+            "2 - Add a Class", "3 - Remove a class", "4 - Calculate GPA", "5 - Sort Classes by Grade", "6 - Quite"};
 
     public void start()
     {
@@ -22,12 +22,12 @@ public class CLI implements Runnable{
     @Override
     public void run()
     {
-        gradesList = GradesList.gradesList;
+        gradesList = GradesList.subjectsList;
         System.out.println("Welcome To The GradeBook Program");
         System.out.println("Choose an option to continue");
         listOptions();
         int input = reader.nextInt();
-        while(!(input == 5))
+        while(!(input == 6))
         {
             switch(input)
             {
@@ -46,13 +46,19 @@ public class CLI implements Runnable{
                     System.out.println("Remove a class");
                     System.out.println();
                     removeSubject();
+                    printGrades();
                     break;
                 case 4:
                     System.out.println("Calculate GPA");
                     System.out.println();
                     GPA();
                     break;
-
+                case 5:
+                    System.out.println("Sort Classes by Grade");
+                    System.out.println();
+                    sortByGrade(gradesList.getClassGradeArrayList());
+                    printGrades();
+                    break;
                 default:
                     System.out.println("Enter a valid option");
             }
@@ -91,6 +97,7 @@ public class CLI implements Runnable{
             System.out.println("Class successfully added!");
         } else System.out.println("**Class Already Added**");
         System.out.println();
+
     }
     //finds the index of the subject selected and removes it from the Subject arraylist
     public void removeSubject()
@@ -129,6 +136,45 @@ public class CLI implements Runnable{
             }
         } else  System.out.println("**GradeBook is Empty**");
         System.out.println();
+    }
+    //Sorts the classes by grade using MergeSort (includes recursion)
+    public void sortByGrade(ArrayList<Subject> subjectArrayList) {
+        int listSize = subjectArrayList.size();
+        if (listSize > 1) {
+            // Merge sort the first half
+            ArrayList<Subject> firstHalf = new ArrayList<Subject>();
+            for(int i = 0; i < listSize/2;i++)
+                firstHalf.add(subjectArrayList.get(i));
+            sortByGrade(firstHalf);
+
+            // Merge sort the second half
+            ArrayList<Subject> secondHalf = new ArrayList<Subject>();
+            for(int i = listSize/2; i < listSize;i++)
+                secondHalf.add(subjectArrayList.get(i));
+            sortByGrade(secondHalf);
+
+            // Merge firstHalf with secondHalf into list
+            merge(firstHalf, secondHalf, subjectArrayList);
+        }
+    }
+    public static void merge(ArrayList<Subject> list1, ArrayList<Subject> list2, ArrayList<Subject> temp)
+        {
+            temp.clear();
+        int current1 = 0; // Current index in list1
+        int current2 = 0; // Current index in list2
+
+        while (current1 < list1.size() && current2 < list2.size()) {
+            if (list1.get(current1).getGrade() < list2.get(current2).getGrade())
+                temp.add(list1.get(current1++));
+            else
+                temp.add(list2.get(current2++));
+        }
+
+        while (current1 < list1.size())
+            temp.add(list1.get(current1++));
+
+        while (current2 < list2.size())
+            temp.add(list2.get(current2++));
     }
 
 }

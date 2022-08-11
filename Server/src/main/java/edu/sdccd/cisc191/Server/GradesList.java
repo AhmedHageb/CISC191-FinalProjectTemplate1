@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class GradesList
 {
-    public static GradesList gradesList = new GradesList();
-    private ArrayList<Subject> studentSubjectArrayList = new ArrayList<Subject>();
+    public static GradesList subjectsList = new GradesList();
+    private ArrayList<Subject> studentSubjectArrayList = new ArrayList<>();
 
     //adds a grade to the Arraylist of grades
     public void addGrade(Subject a)
@@ -45,5 +45,6 @@ public class GradesList
             totalPoints = studentSubjectArrayList.get(i).getGrade() + totalPoints;
         return (double) totalPoints / studentSubjectArrayList.size();
     }
+
 
 }

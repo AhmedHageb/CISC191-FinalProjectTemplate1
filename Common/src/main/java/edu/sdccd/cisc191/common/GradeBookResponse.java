@@ -22,13 +22,4 @@ public class GradeBookResponse {
         return objectMapper.readValue(input, GradeBookResponse.class);
     }
     protected GradeBookResponse() {}
-
-   /* public double calculateGPA() {
-        double totalPoints = 0;
-        for (int i = 0; i < gradeList.size(); i++)
-            totalPoints = gradeList.get(i).getGrade() + totalPoints;
-        return (double) totalPoints / gradeList.size();
-    }
-    *
-    */
 }

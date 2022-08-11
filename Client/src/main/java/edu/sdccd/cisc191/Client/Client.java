@@ -28,9 +28,6 @@ public class Client {
     private BufferedReader in;
     private Thread thread;
     private Scanner reader = new Scanner(System.in);
-    //private static GradesList gradesList;
-    private static final String[] options = { "1 - List of your classes",
-            "2 - Add a Class", "3 - Remove a class", "4 - Calculate GPA", "5 - Quit"};
 
 
     public void startConnection(String ip, int port) throws IOException {
@@ -40,7 +37,6 @@ public class Client {
     }
 
     public GradeBookResponse sendRequest(String className, double grade) throws Exception {
-
         //out.println(StudentRequest.toJSON(new StudentRequest(className, grade)));
         return GradeBookResponse.fromJSON(in.readLine());
     }
@@ -58,7 +54,7 @@ public class Client {
 
         try {
             client.startConnection("127.0.0.1", 4444);
-           // System.out.println(client.sendRequest().toString());
+           //System.out.println(client.sendRequest().toString());
             client.stopConnection();
         } catch(Exception e) {
             e.printStackTrace();

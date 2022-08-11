@@ -11,7 +11,7 @@ public class GUI extends Application implements Runnable{
 
     Thread thread;
     TableView tableView;
-    private static GradesList gradesList = GradesList.gradesList;
+    private static GradesList gradesList = GradesList.subjectsList;
 
     public void start()
     {
@@ -70,7 +70,7 @@ public class GUI extends Application implements Runnable{
         tableView.getColumns().add(classColumn);
         tableView.getColumns().add(gradeColumn);
         for (int i = 0; i < gradesList.getClassGradeArrayList().size(); i++) {
-            tableView.getItems().add(gradesList.getClassGradeArrayList().get(i));//figure out how to change location to name
+            tableView.getItems().add(gradesList.getClassGradeArrayList().get(i));
         }
     }
     //clears the grade book gui and resets the subject arraylist to remove all the grades entered by the user and start a new grade book
@@ -80,7 +80,5 @@ public class GUI extends Application implements Runnable{
         tableView.getItems().clear();
         gradesList.deleteAll();
     }
-
-
 
 }
